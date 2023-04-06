@@ -13,6 +13,7 @@ import SelectDamage from './cyberfix/pages/selectDamage';
 import RepairForm from './cyberfix/pages/repairForm';
 
 import NotFound from './notFound';
+import { MakePayment } from './cyberfix/pages/payment';
 
 class App extends React.Component {
   render() {
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Route path='/cyberfix/device-model' element={<SelectDeviceModel />} />
             <Route path='/cyberfix/damage-option' element={<SelectDamage />} />
             <Route path='/cyberfix/repair-form' element={<RepairForm />} />
+            <Route path='/cyberfix/make-payment' element={<MakePayment />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Box, Typography, Grid } from "@mui/material";
 
 
@@ -16,7 +16,7 @@ export default function RepairForm() {
     if (brand == 'iphones') 
         return (
             <React.Fragment >
-                <Grid container sx={{ pl: {xs: 5, md: '60px'}, pr: {xs: 5, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+                <Grid container sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                     <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                         <Box p={4} mb={5} sx={{display: 'flex', backgroundColor: '#F6F6F6', flexDirection: 'column'}}>   
                             <Box py={1} display="flex">DEVICE NAME: <Typography ml={1}>{brand} {model}</Typography></Box>
@@ -53,13 +53,16 @@ export default function RepairForm() {
                                 <input type="checkbox" className="me-2"/>  I have confirmed all details above
                             </div>
                             
-                            <button value="submit" class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-                                Confirm
-                            </button>
+                            <Link to="/cyberfix/make-payment">
+                                <button value="submit" class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                    Confirm
+                                </button>
+                            </Link>
+                            
                         </form>
                     </Grid>    
 
-                    <Grid sx={{ order: {xs: 1, md: 2}, ml: {md: '200px'}}}  my={5} item xs={12} md={3}>
+                    <Grid sx={{ order: {xs: 1, md: 2}, ml: {md: '200px'}}}  my={5} item xs={10} md={3}>
                     <Box> 
                         <Box class="cyberfix-checkout-details py-2 card">
                             <Box class="card-body checkout-card px-0 mx-4">
@@ -96,7 +99,7 @@ export default function RepairForm() {
     else if (brand == 'samsungs')
         return (
             <React.Fragment >
-                <Grid container sx={{ pl: {xs: 5, md: '60px'}, pr: {xs: 5, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+                <Grid container sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                     <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                         <Box p={4} mb={5} sx={{display: 'flex', backgroundColor: '#F6F6F6', flexDirection: 'column'}}>   
                             <Box py={1} display="flex">DEVICE NAME: <Typography ml={1}>{brand} {model}</Typography></Box>
@@ -106,7 +109,7 @@ export default function RepairForm() {
                         <Typography variant="h4"> Book A Repair</Typography>    
 
                         <Typography variant="h6" mt={5} mb={3} >Enter Your Name And Address :</Typography>    
-                        <form>
+                        <form >
                             <div className="form-group mb-3">
                                 <input placeholder="First Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -139,7 +142,7 @@ export default function RepairForm() {
                         </form>
                     </Grid>    
 
-                    <Grid sx={{ order: {xs: 1, md: 2}, ml: {md: '200px'}}}  my={5} item xs={12} md={3}>
+                    <Grid sx={{ order: {xs: 1, md: 2}, ml: {md: '200px'}}}  my={5} item xs={10} md={3}>
                     <Box> 
                         <Box class="cyberfix-checkout-details py-2 card">
                             <Box class="card-body checkout-card px-0 mx-4">
@@ -176,7 +179,7 @@ export default function RepairForm() {
     else if (brand == 'tablets')
         return (
             <React.Fragment >
-                <Grid container sx={{ pl: {xs: 5, md: '60px'}, pr: {xs: 5, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+                <Grid container sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                     <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                         <Typography variant="h4"> Book A Repair</Typography>    
 
@@ -238,7 +241,7 @@ export default function RepairForm() {
     else if (brand == 'laptops')
         return (
             <React.Fragment>
-                <Grid container sx={{ pl: {xs: 5, md: '60px'}, pr: {xs: 5, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+                <Grid container sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                     <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                         <Typography variant="h4"> Book A Repair</Typography>    
 

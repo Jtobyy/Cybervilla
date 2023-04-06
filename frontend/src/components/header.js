@@ -27,8 +27,8 @@ export default function Header() {
               <li className="me-5"><img src={ic_call} width={12} className='me-2' /><a href="#">0700cybervilla</a></li>  
               <li><a href="#"><img src={ic_mail} width={12} className='me-2' />support@cybervilla.io</a></li>
             </ul>  
-            <nav className="navbar mt-0 py-2 px-md-5 px-3 navbar-expand-lg bg-black">
-              <div className="container-fluid">
+            <nav className="navbar mt-0 py-2 px-md-5 px-0 navbar-expand-lg bg-black">
+              <div className="container-fluid px-3">
                 <Link className="navbar-brand" to="/cyberfix">
                   <img src={logo} width="130"  alt="" />
                 </Link>

@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 export default function Landing() {
     return (
         <React.Fragment>
-            <Box py={5}  sx={{ml: {md: 2}, pl: {xs: 1, md: 5}, pr: {xs: 1}, mb: {xs: '50px', md: '200px'}, mt:'80px' }}>
-                <Typography variant="h4" sx={{ pl: {xs: 5, md: 0}, mt: {xs: 3, md: 0}, fontSize: {xs: '1.5rem', md: '2rem'}}}>Select Your Device</Typography>
-                <Typography variant="body1" sx={{ pl: {xs: 5, md: 0}}}>Kindly Select The Device You Want To Repair</Typography>    
+            <Box py={5}  sx={{ml: {md: 2}, px: {xs: 1}, pl: {md: 5}, mb: {xs: '50px', md: '200px'}, mt:'80px' }}>
+                <Typography variant="h4" sx={{ pl: {xs: 1, md: 0}, mt: {xs: 3, md: 0}, fontSize: {xs: '1.5rem', md: '2rem'}}}>Select Your Device</Typography>
+                <Typography variant="body1" sx={{ pl: {xs: 1, md: 0}}}>Kindly Select The Device You Want To Repair</Typography>    
         
                 <Grid container sx={{ display: 'flex', mt: {md: 4}}} justifyContent="space-around" alignItems="end">
                     <Grid xs={6} md={3} mb={3} sx={{marginLeft: {md: '-80px'}}} >

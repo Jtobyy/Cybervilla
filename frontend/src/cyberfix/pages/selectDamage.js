@@ -18,7 +18,7 @@ export default function SelectDamage() {
 
     return (
         <React.Fragment>
-            <Box sx={{ pl: {xs: 3, md: '60px'}, pr: {xs: 3, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+            <Box sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                 <Typography variant="h4" sx={{ fontSize: {xs: '1.5rem', md: '2rem'}}}>What is wrong with your device?</Typography>    
 
                 <Grid container mt={3}>

@@ -2,10 +2,10 @@ import logo from '../assets/logo.svg';
 
 export default function Footer() {
     return(
-        <footer class="footer bg-black w-100 py-md-5 pt-1 pb-5 px-md-5 px-3 container-fluid border-bottom border-secondary">
+        <footer class="footer bg-black w-100 py-md-5 pt-1 px-md-5 px-3 container-fluid border-bottom border-secondary" style={{ paddingBottom: '100px',}}>
             <div class="row py-5 align-items-start justify-content-between">
                 <div class="col-md-3 d-flex flex-column ps-md-5">
-                    <img src={logo} style={{width: "50%"}} classname="footer-logo" alt="logo" loading="lazy"/>
+                    <img src={logo} width="130" classname="footer-logo" alt="logo" loading="lazy"/>
                     <div class="mt-md-4 mt-2 mb-4">
                         <a class="fb py-1 ms-2 ms-md-0 me-4" href="https://www.facebook.com/Cyberstickio-100203956085984/">
                             <img src="https://apps.nativetalk.com.ng:445/static/ic_fb.svg" loading="lazy"/>
