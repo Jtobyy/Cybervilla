@@ -14,18 +14,21 @@ body * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.off-white {
+  color: rgba(255, 255, 255, .7);
+}
 a {
-  color: white;
+  color: rgba(255, 255, 255, .8);
   text-decoration: none;
 }
-a:hover {
-  color: rgb(217, 210, 210);
+a:hover{
+  color: rgba(255, 255, 255, .8) ;
 }
 .nav-link {
-  color: white;
+  color: rgba(255, 255, 255, .8);
 }
 .nav-link:hover {
-  color: rgb(217, 210, 210);
+  color: rgb(255, 255, 255);
 }
 .ctabtn {
   background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);
@@ -36,7 +39,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 .toggle-line {
   background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);    ;
   height: 3px;

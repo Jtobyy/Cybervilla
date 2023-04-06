@@ -187,7 +187,17 @@ export default function RepairForm() {
                             <div className="form-group mb-3">
                                 <input placeholder="Device Model" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
+                            <div className="form-group mb-3">
+                                <textarea rows={5} placeholder="What is wrong with your device" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                            </div>
+                    
+                            <div className="form-group mb-3">
+                                <label for="exampleFormControlFile1">Upload image/video of device</label>
+                                <input type="file" className="form-control-file" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                            </div>
                             
+                            
+
                             <Typography variant="h6" mt={5} mb={3} >Enter Your Name And Address :</Typography>    
                             <div className="form-group mb-3">
                                 <input placeholder="First Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />

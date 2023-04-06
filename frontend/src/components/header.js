@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import ic_call from '../assets/call.svg';
 import ic_mail from '../assets/ic_mail.svg';
 
+import logo from '../assets/logo.svg';
+import cart from '../assets/Cart.svg';
+
 export default function Header() {
     const [navbarToggle, setNavbarToggle] = useState(false);
     const toggleNavbar = () => {
@@ -24,10 +27,10 @@ export default function Header() {
               <li className="me-5"><img src={ic_call} width={12} className='me-2' /><a href="#">0700cybervilla</a></li>  
               <li><a href="#"><img src={ic_mail} width={12} className='me-2' />support@cybervilla.io</a></li>
             </ul>  
-            <nav className="navbar mt-0 py-2 px-5 navbar-expand-lg bg-black">
+            <nav className="navbar mt-0 py-2 px-md-5 px-3 navbar-expand-lg bg-black">
               <div className="container-fluid">
                 <Link className="navbar-brand" to="/cyberfix">
-                  <img src="https://apps.nativetalk.com.ng:445/static/ic_logo.svg" width="130"  alt="" />
+                  <img src={logo} width="130"  alt="" />
                 </Link>
                 <div className="navbar-toggler" onClick={() => toggleNavbar()} type="button" data-bs-target="#headerNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <div className="toggle-line t1 mb-1"></div>
@@ -36,13 +39,14 @@ export default function Header() {
                 </div>
 
 
-                <div class="collapse navbar-collapse" id="headerNavbar">
-                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li className="nav-item me-3 active" id="nav-item1" >
-                            <HashLink className="nav-link" to="/#home" onClick={(e) => {
+                <div class="collapse navbar-collapse " id="headerNavbar">
+                  <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li className="nav-item me-3 active " id="nav-item1" >
+                            <a href="https://tech4mationltd-0.odoo.com/cyberbuy"
+                                className="nav-link" onClick={(e) => {
                                 $('.nav-item').removeClass('active')
                                 e.target.parentElement.classList.add('active')
-                        }}>Home</HashLink>
+                        }}>Home</a>
                     </li>
                     <li className="nav-item me-3" id="nav-item2">
                             <HashLink className="nav-link" to="/#about-us" onClick={(e) => {
@@ -51,13 +55,13 @@ export default function Header() {
                         }}>About us</HashLink>
                         </li>
                         <li className="nav-item me-3 " id="nav-item3">
-                            <HashLink className="nav-link" to="/#what-we-do" onClick={(e) => {
+                            <a  href="https://tech4mationltd-0.odoo.com/shop" className="nav-link" to="/#what-we-do" onClick={(e) => {
                                 $('.nav-item').removeClass('active')
                                 e.target.parentElement.classList.add('active')
-                        }}>Products</HashLink>
+                        }}>Products</a>
                         </li>
                         <li className="nav-item me-3 " id="nav-item4">
-                            <Link className="nav-link" to="/Lubricants" onClick={(e) => {
+                            <Link className="nav-link" to="/cyberfix" onClick={(e) => {
                                 $('.nav-item').removeClass('active')
                                 e.target.parentElement.classList.add('active')
                         }}>CyberFix</Link>

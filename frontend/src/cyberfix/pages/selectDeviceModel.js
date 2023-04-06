@@ -1,7 +1,7 @@
 import { Typography, Box, Stack, Paper, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useLocation } from "react-router-dom";
 
@@ -21,23 +21,32 @@ export default function SelectDeviceModel() {
     const location = useLocation();
     const props = location.state;
     const [models, setModels] = useState([])
+    const navigate = useNavigate()
 
     const brand = props.deviceModel
     sessionStorage.setItem('brand', brand)    
 
-    console.log(deviceModels)
-    console.log(deviceModels[brand])
-    if (deviceModels[props.deviceModel] == undefined)
-        return <Navigate style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/damage-option" state={{ model: "" }} />
-    else 
-        setModels(deviceModels[props.deviceModel])
+    useEffect(() => {
+        console.log(deviceModels)
+        console.log(deviceModels[brand])
+        if (deviceModels[brand] == undefined)
+            setModels([])
+        else {
+            setModels(deviceModels[brand])    
+            console.log(models)
+        }
+    }, [models])
+    
+    if (models.length === 0)    
+        return navigate("/cyberfix/damage-option", { replace: true, state: { model: "" } }) 
+    
     return (
         <React.Fragment>
-            <Box sx={{ pl: {xs: 5, md: '60px'}, pr: {md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
-                <Typography variant="h4" >Select Device Model</Typography>    
+            <Box sx={{ pl: {xs: 3, md: '60px'}, pr: {xs: 3, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
+                <Typography variant="h4" sx={{ fontSize: {xs: '1.5rem', md: '2rem'}}}>Select Device Model</Typography>    
 
                 <Grid container mt={3}>
-                    {models[0].map((model) => {
+                    {models.map((model) => {
                         console.log('item ', model)
                         return (          
                             <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/damage-option" state={{ model: model }}>

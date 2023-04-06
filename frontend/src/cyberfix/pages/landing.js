@@ -12,40 +12,42 @@ import { Link } from "react-router-dom";
 export default function Landing() {
     return (
         <React.Fragment>
-            <Box py={5} ml={2} sx={{ pl: {xs: 0, md: 5}, mb: '200px', mt:'80px' }}>
-                <Typography variant="h4" sx={{ pl: {xs: 5, md: 0}, mt: {xs: 3, md: 0}}}>Select Your Device</Typography>
+            <Box py={5}  sx={{ml: {md: 2}, pl: {xs: 1, md: 5}, pr: {xs: 1}, mb: {xs: '50px', md: '200px'}, mt:'80px' }}>
+                <Typography variant="h4" sx={{ pl: {xs: 5, md: 0}, mt: {xs: 3, md: 0}, fontSize: {xs: '1.5rem', md: '2rem'}}}>Select Your Device</Typography>
                 <Typography variant="body1" sx={{ pl: {xs: 5, md: 0}}}>Kindly Select The Device You Want To Repair</Typography>    
         
-                <Grid container sx={{ display: 'flex', mt: 4}} justifyContent="space-around" alignItems="end">
-                    <Grid xs={6} md={3}>
+                <Grid container sx={{ display: 'flex', mt: {md: 4}}} justifyContent="space-around" alignItems="end">
+                    <Grid xs={6} md={3} mb={3} sx={{marginLeft: {md: '-80px'}}} >
                         <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/device-model" state={{ deviceModel: 'iphones' }}>
                             <Stack direction="column" alignItems='center' sx={{ cursor: 'pointer' }}>
-                                <Box component='img' src={iphone} sx={{width: {xs: '150px'}}} />
-                                <Typography variant="h5" mt={3}>iphones</Typography>
+                                <Box component='img' src={iphone} sx={{width: {xs: '120px', md: '200px'}}} />
+                                <Typography variant="h5" sx={{ mt: {xs: 1, md: 3}}}>iphones</Typography>
                             </Stack>
                         </Link>
                     </Grid>
-                    <Grid xs={6} md={3}>
+                    <Grid xs={6} md={3} mb={3}>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/device-model" state={{ deviceModel: 'samsungs' }}>
+                            <Stack direction="column" alignItems='center' sx={{ cursor: 'pointer', mt: 5 }}>
+                                <Box component='img' src={samsung} sx={{width: {xs: '120px', md: '180px'}}} />
+                                <Typography variant="h5" sx={{mt: {xs: 1, md: 3}}}>Samsung</Typography>
+                            </Stack>
+                        </Link>
+                    </Grid>
+                    
+                    <Grid xs={6} md={3} mb={3}>
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/device-model" state={{ deviceModel: 'tablets' }}>
                         <Stack direction="column" alignItems='center' sx={{ cursor: 'pointer' }}>
-                            <Box component='img' src={tab} sx={{width: {xs: '150px'}}} />
-                            <Typography variant="h5" mt={3}>Tablets</Typography>
+                            <Box component='img' src={tab} sx={{width: {xs: '150px', md: '250px'}}} />
+                            <Typography variant="h5" sx={{mt: {xs: 1, md: 3}}}>Tablets</Typography>
                         </Stack>
                     </Link>
                     </Grid>
-                    <Grid xs={6} md={3} >
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/device-model" state={{ deviceModel: 'samsungs' }}>
-                            <Stack direction="column" alignItems='center' sx={{ cursor: 'pointer', mt: 5 }}>
-                                <Box component='img' src={samsung} sx={{width: {xs: '150px'}}} />
-                                <Typography variant="h5" mt={3}>Samsung</Typography>
-                            </Stack>
-                        </Link>
-                    </Grid>
-                    <Grid xs={6} md={3}>
+                    
+                    <Grid xs={6} md={3} mb={3}>
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/device-model" state={{ deviceModel: 'laptops' }}>
                         <Stack direction="column" alignItems='center' sx={{ cursor: 'pointer', mt: 5 }}>
-                            <Box component='img' src={laptop} sx={{width: {xs: '150px'}}} />
-                            <Typography variant="h5" mt={3}>Laptops</Typography>
+                            <Box component='img' src={laptop} sx={{width: {xs: '200px', md: '300px'}}} />
+                            <Typography variant="h5" sx={{mt: {xs: 1, md: 3}}}>Laptops</Typography>
                         </Stack>
                     </Link>
                     </Grid>
