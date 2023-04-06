@@ -15,6 +15,74 @@ import RepairForm from './cyberfix/pages/repairForm';
 import NotFound from './notFound';
 import { MakePayment } from './cyberfix/pages/payment';
 
+
+export const model_damage_price = {
+  iphones: { 
+      'Broken Screen': {
+          '12 Pro Max': 85000,
+          '12 Pro': 75000,
+          '11 Pro Max': 55000,
+          '11 Pro': 45000,
+          '11': 40000,
+          'XS Max': 45000,
+          'XS': 35000,
+          'XR': 30000,
+          'X': 30000,
+          'SE 2020': 15000,
+          '8': 15000,
+          '7': 15000,
+          '8+': 20000,
+          '7+': 20000,
+          '6s+': 20000,
+          '6s': 15000, 
+          '6+': 15000,
+          '6': 13000, 
+          '5': 13000
+      },
+      
+      'Back Glass': {
+          'SE 2020': 10000,
+          '8': 10000,
+          '8+': 10000,
+          '7+': 10000,
+          'X': 10000,
+          'XS': 10000,
+          'XR': 15000,
+          'XS Max': 15000,
+          '11': 15000,
+          '11 Pro': 20000,
+          '11 Pro Max': 20000,
+          '12 Pro': 25000,
+          '12 Pro Max': 30000,
+          '13': 30000,
+          '13 Pro': 30000,
+          '13 Pro Max': 35000,
+      },
+
+      'Battery': {
+          '6': 6000,    
+          '6s': 6000, 
+          '6+': 8000,
+          '6s+': 8000,
+          '7': 8000,
+          'SE 2020': 8000,
+          '8': 8000,
+          '8+': 10000,
+          '7+': 10000,
+          'X': 15000,
+          'XS': 15000,
+          'XR': 15000,
+          'XS Max': 15000,
+          '11': 15000,
+          '11 Pro': 20000,
+          '11 Pro Max': 20000,
+          '12 Pro': 30000,
+          '12 Pro Max': 35000,
+      }
+  }
+}
+
+
 class App extends React.Component {
   render() {
     return (

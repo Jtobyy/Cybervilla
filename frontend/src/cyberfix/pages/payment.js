@@ -1,20 +1,28 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import logo from '../../assets/logo.png';
-
+import { Link, Navigate, useLocation } from "react-router-dom";
+import ScrollToTopOnMount from "../../components/scrolltoview";
 
 export function MakePayment() { 
+    const location = useLocation();
+    const props = location.state;
+    const [amount, setAmount] = useState(0)
+    const [email, setEmail] = useState('user@gmail.com')
+    const [phone, setPhone] = useState('070********')
+    const [name, setName] = useState('john doe')
+
     const config = {
         public_key: 'FLWPUBK_TEST-4a979a2087a9fc732f4321b90c5b6ccd-X',
         tx_ref: Date.now(),
-        amount: 100,
+        amount: amount,
         currency: 'NGN',
         payment_options: 'card,mobilemoney,ussd',
         customer: {
-          email: 'user@gmail.com',
-          phone_number: '070********',
-          name: 'john doe',
+          email: email,
+          phone_number: phone,
+          name: name,
         },
         customizations: {
           title: 'CyberFix',
@@ -23,21 +31,38 @@ export function MakePayment() {
         },
       };
       
-    const handleFlutterPayment = useFlutterwave(config)
 
-    const startPayment = (e) =>  {
-        e.preventDefault()
-        
-        handleFlutterPayment({
-            callback: (response) => {
-                console.log(response);
-                closePaymentModal() // this will close the modal programmatically
-            },
-            onClose: () => {},
-        });
-    }
+    useEffect(() => {
+        if (props) {
+            setAmount(props.price)
+            setEmail(props.email)
+            setPhone(props.phone)
+            setName(props.firstName + ' ' + props.lastName)
+
+            sessionStorage.setItem('price', props.price)
+        } else {
+            if (!sessionStorage.getItem('price'))
+                return <Navigate to="/cyberfix/" /> 
+        }    
+    }, [amount])    
+    
+    const handleFlutterPayment = useFlutterwave(config)
+    
+        const startPayment = (e) =>  {
+            e.preventDefault()
+            
+            handleFlutterPayment({
+                callback: (response) => {
+                    console.log(response);
+                    closePaymentModal() // this will close the modal programmatically
+                },
+                onClose: () => {},
+            });
+        }
+
     return (
         <React.Fragment>
+            <ScrollToTopOnMount />    
             <Grid container sx={{ pl: {xs: 2, md: '60px'}, pr: {xs: 2, md: 5}, mt: {xs: '150px'}, mb: '200px'}}>
                 <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                 
@@ -92,9 +117,11 @@ export function MakePayment() {
                                 </Box>
                             </Box>
                             <Box class="card-footer px-0 mx-4 my-2">
-                                <Box class="d-flex justify-content-between">
+                                <Box class="d-flex justify-content-between fw-bold">
                                     <Box class="mr-auto">Total</Box>
-                                    <Box class="fw-700 " id="cyberfix-total"/>
+                                    <Box class="fw-700 " id="cyberfix-total">
+                                        {sessionStorage.getItem('price')}
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
