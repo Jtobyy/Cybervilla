@@ -30,7 +30,7 @@ export default function SelectDamage() {
     }
 
     if (!sessionStorage.getItem('brand'))
-        return <Navigate to="/cyberfix" />
+        return <Navigate to="/" />
 
     const brand = sessionStorage.getItem('brand')
 
@@ -43,7 +43,7 @@ export default function SelectDamage() {
                     {damageOptions[brand].map((option) => {
                         // console.log('item ', option)
                         return (        
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/repair-form" state={{ 'damage': option }} >
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/repair-form" state={{ 'damage': option }} >
                                 <Box px={2} sx={{display: 'flex', cursor: 'pointer', borderRadius: '10px', width: {xs: '100px', md: '150px'},  height: {xs: '100px', md: '150px'} }} m={1} alignItems='center' justifyContent='center' bgcolor="#F6F6F6" >
                                     {option}
                                 </Box>

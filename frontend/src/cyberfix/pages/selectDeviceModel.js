@@ -43,10 +43,10 @@ export default function SelectDeviceModel() {
     }, [models])
     
     if (!sessionStorage.getItem('brand'))
-        return navigate("/cyberfix/", { replace: false }) 
+        return navigate("/", { replace: false }) 
 
     if (models.length === 0)    
-        return navigate("/cyberfix/damage-option", { replace: true, state: { model: "" } }) 
+        return navigate("/damage-option", { replace: true, state: { model: "" } }) 
     
     return (
         <React.Fragment>
@@ -57,7 +57,7 @@ export default function SelectDeviceModel() {
                     {models.map((model) => {
                         // console.log('item ', model)
                         return (          
-                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/cyberfix/damage-option" state={{ model: model }}>
+                            <Link style={{ textDecoration: 'none', color: 'black' }} to="/damage-option" state={{ model: model }}>
                                 <Box px={2} sx={{display: 'flex', cursor: 'pointer', borderRadius: '10px', width: {xs: '100px', md: '150px'},  height: {xs: '100px', md: '150px'} }} m={1} alignItems='center' justifyContent='center' bgcolor="#F6F6F6" >
                                     {model}
                                 </Box>

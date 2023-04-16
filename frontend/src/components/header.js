@@ -29,9 +29,9 @@ export default function Header() {
             </ul>  
             <nav className="navbar mt-0 py-2 px-md-5 px-0 navbar-expand-lg bg-black">
               <div className="container-fluid px-3">
-                <Link className="navbar-brand" to="/cyberfix">
+                <a className="navbar-brand" href="https://www.cybervilla.io">
                   <img src={logo} width="130"  alt="" />
-                </Link>
+                </a>
                 <div className="navbar-toggler" onClick={() => toggleNavbar()} type="button" data-bs-target="#headerNavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <div className="toggle-line t1 mb-1"></div>
                     <div className="toggle-line t2 mb-1"></div>
@@ -42,11 +42,10 @@ export default function Header() {
                 <div class="collapse navbar-collapse " id="headerNavbar">
                   <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li className="nav-item me-3 active " id="nav-item1" >
-                            <a href="https://tech4mationltd-0.odoo.com/cyberbuy"
-                                className="nav-link" onClick={(e) => {
+                            <Link to="/" className="nav-link" onClick={(e) => {
                                 $('.nav-item').removeClass('active')
                                 e.target.parentElement.classList.add('active')
-                        }}>Home</a>
+                        }}>Home</Link>
                     </li>
                     <li className="nav-item me-3" id="nav-item2">
                             <HashLink className="nav-link" to="/#about-us" onClick={(e) => {
@@ -61,7 +60,7 @@ export default function Header() {
                         }}>Products</a>
                         </li>
                         <li className="nav-item me-3 " id="nav-item4">
-                            <Link className="nav-link" to="/cyberfix" onClick={(e) => {
+                            <Link className="nav-link" to="/" onClick={(e) => {
                                 $('.nav-item').removeClass('active')
                                 e.target.parentElement.classList.add('active')
                         }}>CyberFix</Link>

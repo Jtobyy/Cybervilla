@@ -14,7 +14,11 @@ import RepairForm from './cyberfix/pages/repairForm';
 
 import NotFound from './notFound';
 import { MakePayment } from './cyberfix/pages/payment';
+// import { loadProgressBar } from 'axios-progress-bar';
+// import 'axios-progress-bar/dist/nprogress.css';
 
+
+// loadProgressBar();
 
 export const model_damage_price = {
   iphones: { 
@@ -83,6 +87,17 @@ export const model_damage_price = {
 }
 
 
+export const BASE_CRM_VOIPSWITCH = "https://apps.nativetalk.com.ng:445/kriffy/api"
+
+export const ENDPOINTS = { 
+  login: '/customer/login',
+  addCustomer: '/customer/addCustomer',
+  getCustomerList: '/customer/getCustomerList',
+  addContact: '/customer/addContact',
+  getCustomerProfile: '/customer/getCustomerProfile',
+  createTicket: '/customer/createTicket'
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -90,11 +105,11 @@ class App extends React.Component {
         <div >
           <Header />
           <Routes>
-            <Route path='/cyberfix' element={<CyberfixLanding />} />
-            <Route path='/cyberfix/device-model' element={<SelectDeviceModel />} />
-            <Route path='/cyberfix/damage-option' element={<SelectDamage />} />
-            <Route path='/cyberfix/repair-form' element={<RepairForm />} />
-            <Route path='/cyberfix/make-payment' element={<MakePayment />} />
+            <Route path='/' element={<CyberfixLanding />} />
+            <Route path='/device-model' element={<SelectDeviceModel />} />
+            <Route path='/damage-option' element={<SelectDamage />} />
+            <Route path='/repair-form' element={<RepairForm />} />
+            <Route path='/make-payment' element={<MakePayment />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

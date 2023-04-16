@@ -42,7 +42,7 @@ export function MakePayment() {
             sessionStorage.setItem('price', props.price)
         } else {
             if (!sessionStorage.getItem('price'))
-                return <Navigate to="/cyberfix/" /> 
+                return <Navigate to="/" /> 
         }    
     }, [amount])    
     

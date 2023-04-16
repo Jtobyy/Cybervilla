@@ -30,7 +30,7 @@ export default function Footer() {
                 </div>
                 <div class="col-md-3 col-6 d-flex flex-column mt-5 mt-md-0">
                     <h5 class="p-0 mt-md-0 text-white">CONTACT US</h5>
-                    <a href="#!" class="py-1 m-0">(+234) 908 899 9099</a>
+                    <a href="tel:09088999099" class="py-1 m-0">(+234) 908 899 9099</a>
                     <a href="#!" class="py-1 m-0">support@cyberstick.io</a>
                 </div>
                 <div class="col-md-3 col-6 d-flex flex-column mt-5 mt-md-0">
