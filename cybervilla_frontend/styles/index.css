@@ -1,0 +1,186 @@
+//
+// This file is meant to regroup your design customizations. For example, doing
+// this will separate your footer with a dotted border using your primary color.
+//
+@font-face {
+  font-family: "Quatro";
+  src: url('https://apps.nativetalk.com.ng:445/static/font/Quatro-Book.eot') format('embedded-opentype'),
+       url('https://apps.nativetalk.com.ng:445/static/font/Quatro-Book.woff2') format('woff2'),
+       url('https://apps.nativetalk.com.ng:445/static/font/Quatro-Book.woff') format('woff'),
+       url('https://apps.nativetalk.com.ng:445/static/font/Quatro-Book.ttf') format('truetype');
+}
+.accordion-body {
+    color: rgba(0, 0, 0, 0.5);
+}
+body, body *{
+    font-family: 'Quatro' !important;
+}
+body section {
+    line-height: 30px;
+}
+.business-info {
+    margin-top: -30px;
+    background-image: url('https://apps.nativetalk.com.ng:445/static/business-info-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.business-info .content{
+    padding-left: 200px;
+    padding-right: 200px;
+}
+.business-info img{
+    border-radius: 10px;
+    height: 50vh; 
+    width: 35vw;
+}
+
+.buynowbtn {
+    position: relative;    
+    top: 40px;
+    height: 55px;
+    width: calc(20vw);
+    border-radius: 7px;
+    font-size: .8rem;
+    background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);
+    -webkit-text-fill-color: white;
+    transition: all .2s;
+}
+.buynowbtn:hover {
+    transform: scale(.97);
+}
+.buynowbtnplain {
+    background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);
+    -webkit-text-fill-color: white;
+    transition: all .2s;
+}
+.cyberfix-img {
+    background-color: #F4EDFA;
+    margin-left: 15px;
+    margin-top: 10px;
+    border-radius: 15px;
+}
+.cyberfix-img img {
+    height: 30vh;
+}
+.buynowbtnplain:hover {
+    transform: scale(.97);
+}
+.gradient-text {
+    background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);    
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+.exp-center {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.527),rgba(0, 0, 0, 0.52)) , url("https://apps.nativetalk.com.ng:445/static/center_bg.png");
+}
+footer {
+    background-color: black;
+}
+footer a {
+    color: white !important;
+}
+.add-section-1 {
+    padding-left: 80px; 
+    padding-right: 80px; 
+    margin-top: 100px; 
+    margin-bottom: 150px;
+}
+.add-section-1 img {
+    height: 400px;
+}
+.graphics1 img {
+    width: 36vw;
+    position: relative;
+    top: -70px;
+}
+.slashed-img1 img {
+    height: 50vh;
+    width: 35vw;
+}
+.slashed-img2 img {
+    height: 80vh; 
+    width: 40vw;
+}
+
+
+@media only screen and (max-width: 700px) {
+    body {
+        font-size: .7rem;
+    }
+    body section {
+    line-height: 25px;
+    }
+    .cyberfix-img {
+    margin-left: 5px;
+    }
+    .cyberfix-img img {
+        height: 15vh;
+    }
+    .business-info .content{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    h1 {
+        font-size: 1.8rem !important;
+    }
+    h4 {
+        font-size: 1rem;
+    }
+    h5 {
+        font-size: .8rem;
+    }
+    .advant p {
+        font-size: .7rem;
+    }
+    .advant img {
+        width: 30px;
+        margin-top: 20px;
+    }
+    .buynowbtn {
+        width: 80vw;
+        position: relative;    
+        top: 40px;
+        height: fit-content;
+        font-size: .7rem;
+    }
+    .graphics1 img {
+        margin-top: 50px;
+        width: 80vw;
+        top: 0px;
+    }
+    
+    .cyberbuy-section {
+        padding-top: 0px !important;
+    }
+    .tabs-1 {
+        padding-top: 20px !important;
+    }
+    
+    .add-section-1 {
+        padding-left: 10px; 
+        padding-right: 10px; 
+        margin-top: 10px; 
+        margin-bottom: 100px;
+    }
+        .add-section-1 img {
+        height: 70vw;
+    }
+    
+    .slashed-img1 img {
+        width: 50vw;
+    }
+    .slashed-img2 img {
+        width: 50vw;
+    }
+    .lead {
+        font-size: .9rem;
+    }
+    .section1 img {
+        height: 300px;
+    }
+    .business-info img{
+        height: 30vh; 
+        width: 50vw;
+    }
+}
+

@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "Quatro";
+  src: url('assets/fonts/Quatro-Book.eot') format('embedded-opentype'),
+       url('assets/fonts/Quatro-Book.woff2') format('woff2'),
+       url('assets/fonts/Quatro-Book.woff') format('woff'),
+       url('assets/fonts/Quatro-Book.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+}
+body * {
+  font-family: 'Quatro' !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.off-white {
+  color: rgba(255, 255, 255, .7);
+}
+a {
+  color: rgba(255, 255, 255, .8);
+  text-decoration: none;
+}
+a:hover{
+  color: rgba(255, 255, 255, .8) ;
+}
+.nav-link {
+  color: rgba(255, 255, 255, .8);
+}
+.nav-link:hover {
+  color: rgb(255, 255, 255);
+}
+.ctabtn {
+  background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);
+  -webkit-text-fill-color: white;
+  transition: all .2s;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.toggle-line {
+  background: linear-gradient(to right, #EC1EB1, #EC1EB1, #5E01BA, #5E01BA);    ;
+  height: 3px;
+  width: 20px;
+  transition: all .3s;
+}
+.t3 {
+  width: 13px;
+}

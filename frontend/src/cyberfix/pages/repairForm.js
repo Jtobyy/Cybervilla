@@ -1,11 +1,50 @@
 import React, { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { Box, Button, Modal, Typography, Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box, Button, Modal, LinearProgress, Typography, Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { BASE_CRM_VOIPSWITCH, ENDPOINTS, model_damage_price } from "../..";
 import ScrollToTopOnMount from "../../components/scrolltoview";
-import success from '../../assets/success.svg';
+import successImg from '../../assets/success.svg';
 import axios from 'axios';
 
+import PropTypes from 'prop-types';
+
+
+const progressStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: 400,
+    transform: 'translate(-50%, -50%)',
+    boxShadow: 24,
+    p: 4,
+    bgcolor: 'black',
+    borderRadius: '10px',
+    boxShadow: '0 0 0 9999px #000000b0',
+    display: 'flex', alignItems: 'center'
+}
+
+function LinearProgressWithLabel(props) {
+    return (
+      <Box sx={progressStyle}>
+        <Box sx={{ width: '100%', mr: 1 }}>
+          <LinearProgress color="secondary" variant="determinate" {...props} />
+        </Box>
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="white">{`${Math.round(
+            props.value,
+          )}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+
+  LinearProgressWithLabel.propTypes = {
+    /**
+     * The value of the progress indicator for the determinate and buffer variants.
+     * Value between 0 and 100.
+     */
+    value: PropTypes.number.isRequired,
+  };
 
 export default function RepairForm() {
     const location = useLocation();
@@ -23,6 +62,20 @@ export default function RepairForm() {
     const [city, setCity] = useState('')
     const [state, setUserState] = useState('')
     const [date, setDate] = useState('')
+    const [device, setDevice] = useState()
+    const [deviceModel, setDeviceModel] = useState('')
+    const [deviceDamage, setDeviceDamage] = useState('')
+
+    const [progress, setProgress] = useState(10)
+    const [showProgress, setShowProgress] = useState(false)
+
+    const [openSuccess, setOpenSuccess] = React.useState(true);
+    const handleOpenSuccess = () => setOpenSuccess(true);
+    const handleCloseSuccess = () => setOpenSuccess(false);    
+    
+    const [openFailed, setOpenFailed] = React.useState(true);
+    const handleOpenFailed = () => setOpenFailed(true);
+    const handleCloseFailed = () => setOpenFailed(false);
 
     let damage;    
     if (props) {
@@ -46,8 +99,20 @@ export default function RepairForm() {
         // console.log(e)
     }        
 
-    const handleSubmitIphone = (e) => {
+    const tearDown = () => {
+        setShowProgress(false);
+        setProgress(10);
+        handleOpenFailed();
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+    }
+
+    const handleSubmitForm = (e) => {
         e.preventDefault()   
+
+        window.scrollTo(0, 0);
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+
+        setShowProgress(true)
 
         let staffId; let apiKey; let customerId; let contactId;
         console.log(firstName)
@@ -83,6 +148,7 @@ export default function RepairForm() {
             axios.post(`${BASE_CRM_VOIPSWITCH}${ENDPOINTS['addCustomer']}`, form2, {headers: {'Authorization': apiKey,  'Content-Type': `multipart/form-data`}})
             .then((res) => {
                 if (res['data']['status'] === 1) {
+                    setProgress(30)    
                     form3.append('staffId', staffId);
                     axios.post(`${BASE_CRM_VOIPSWITCH}${ENDPOINTS['getCustomerList']}`, form3, {headers: {'Authorization': apiKey,  'Content-Type': `multipart/form-data`}})
                     .then((res) => {
@@ -93,19 +159,22 @@ export default function RepairForm() {
                             form4.append('firstname', firstName)
                             form4.append('lastname', lastName)
                             form4.append('email', email)
-                            form4.append('phone', altPhone)
+                            form4.append('phone', phone)
                             form4.append('position', 'cyberfix_user')
                             form4.append('password', firstName + '_' + lastName)
                             form4.append('isPrimary', 0)
 
                             axios.post(`${BASE_CRM_VOIPSWITCH}${ENDPOINTS['addContact']}`, form4, {headers: {'Authorization': apiKey,  'Content-Type': `multipart/form-data`}})
                             .then((res) => {
+                                // throw new Error('my error');
                                 if (res['data']['status'] === 1) {
+                                    setProgress(50)    
                                     form5.append('userId', customerId)
                                     form5.append('staffId', staffId)
 
                                     axios.post(`${BASE_CRM_VOIPSWITCH}${ENDPOINTS['getCustomerProfile']}`, form5, {headers: {'Authorization': apiKey,  'Content-Type': `multipart/form-data`}})
                                     .then((res) => {
+                                        setProgress(80)    
                                         contactId = res['data']['customerData']['contacts'][0]['contactId']
                                         // console.log(contactId)
 
@@ -114,29 +183,52 @@ export default function RepairForm() {
                                         form6.append('contactId', contactId)
                                         form6.append('deptId', 15)
                                         form6.append('priorityId', 16)
-                                        form6.append('subject', `cyberfix by ${firstName + ' ' + lastName}`)
-                                        form6.append('message', `new ${damage} repair`)
+
+                                        if (device)
+                                            form6.append('subject', `cyberfix for ${device + ' ' + deviceModel}`)
+                                        else 
+                                            form6.append('subject', `cyberfix for ${sessionStorage.getItem('brand') + ' ' + sessionStorage.getItem('model')}`)
+
+                                        form6.append('message', `damage: ${damage}, ${deviceDamage}`)
                                         
                                         axios.post(`${BASE_CRM_VOIPSWITCH}${ENDPOINTS['createTicket']}`, form6, {headers: {'Authorization': apiKey,  'Content-Type': `multipart/form-data`}})
                                         .then((res) => {
                                             if (res['data']['status'] === 1) {
-                                                alert('repair order successful, we will contact you very soon')
+                                                setProgress(99)
+                                                // alert('repair order successful, we will contact you very soon')
                                                 setSuccess(true)
+                                                handleOpenSuccess()
+                                                tearDown()
                                             }
-                                                
-                                        }).catch((err) => {console.log(err); setFailed(true)})
-                                    }).catch((err) => {console.log(err); setFailed(true)})
+                                            else {
+                                                setFailed(true)
+                                                tearDown()
+                                                console.log(res)
+                                            }
+                                        }).catch((err) => {console.log(err); setFailed(true); tearDown()})
+                                    }).catch((err) => {console.log(err); setFailed(true); tearDown()})
                                 }
-                            }).catch((err) => {console.log(err); setFailed(true)})
+                                else {
+                                    setFailed(true)
+                                    tearDown()
+                                    console.log(res)
+                                }
+                            }).catch((err) => {console.log(err); setFailed(true); tearDown()})
                             
                         }
-                    }).catch((err) => {console.log(err); setFailed(true)})
+                        else {
+                            setFailed(true)
+                            tearDown()
+                            console.log(res)
+                        }
+                    }).catch((err) => {console.log(err); setFailed(true); tearDown()})
                 }
-            }).catch((err) => {console.log(err); setFailed(true)})
+            }).catch((err) => {console.log(err); setFailed(true); tearDown()})
         })
         .catch((err) => {
             console.log('error')
             console.log(err)
+            tearDown()
         })
         // return navigate("/make-payment", { replace: true, state: {
         //      firstName: firstName,
@@ -166,7 +258,7 @@ export default function RepairForm() {
                         <Typography variant="h4"> Book A Repair</Typography>    
 
                         <Typography variant="h6" mt={5} mb={3} >Enter Your Name And Address :</Typography>    
-                        <form onSubmit={handleSubmitIphone}>
+                        <form onSubmit={handleSubmitForm}>
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setFirstName(e.target.value)} placeholder="First Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -179,9 +271,9 @@ export default function RepairForm() {
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPhone(e.target.value)} type="tel" placeholder="Phone Number" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
-                            <div className="form-group mb-3">
+                            {/* <div className="form-group mb-3">
                                 <input placeholder="Alt. Phone Number" defaultValue={phone} onKeyUp={(e) => setAltPhone(e.target.value)} type="tel" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
-                            </div>
+                            </div> */}
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPickup(e.target.value)} placeholder="Pickup address" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -198,7 +290,7 @@ export default function RepairForm() {
                                 onChange={(e) => setUserState(e.target.value)}
                                 >
                                 {states.map((state) => (
-                                    <MenuItem value={10}>{state}</MenuItem>
+                                    <MenuItem value={state}>{state}</MenuItem>
                                 ))}    
                                 <MenuItem key={state} value={state}>{state}</MenuItem>
                                 </Select>
@@ -235,7 +327,7 @@ export default function RepairForm() {
                             </Box>
                             <Box class="card-footer px-0 mx-4 my-2">
                                 <Box class="d-flex fw-bold justify-content-between">
-                                    <Box class="mr-auto">Total</Box>
+                                    <Box class="mr-auto">Estimated Total</Box>
                                     <Box id="cyberfix-total">{price}</Box>
                                 </Box>
                             </Box>
@@ -248,11 +340,63 @@ export default function RepairForm() {
 
                 {(() => {
                     if (success) 
-                        return <SuccessModal /> 
+                        return (
+                            <div>
+                                  {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                  <Modal
+                                    open={openSuccess}
+                                    onClose={handleCloseSuccess}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Box component="img" src={successImg} height={80} />
+                                      <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                          Successful
+                                      </Typography>
+                                      <Typography id="modal-modal-description" mt={1}>
+                                          You will receive an email shortly
+                                      </Typography>
+                                      <Link to="/">
+                                          <Button class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                              Go back to homepage
+                                          </Button>
+                                      </Link>
+                                  </Box>
+                                  </Modal>
+                                </div>
+                        )
                     else if (failed) 
-                        return <FailedModal />
+                        return (
+                            <div>
+                                {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                <Modal
+                                open={openFailed}
+                                onClose={handleCloseFailed}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                                >
+                                <Box sx={style}>
+                                    <Box component="img" src={successImg} height={80} />
+                                    <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                        Failed
+                                    </Typography>
+                                    {/* <Typography id="modal-modal-description" mt={1}>
+                                        {}}
+                                    </Typography> */}
+                                    <Button onClick={handleCloseFailed} class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                        Try Again
+                                    </Button>
+                                </Box>
+                                </Modal>
+                            </div>
+                        )
+                })()}    
 
-                })()}                
+                {(() => {
+                    if (showProgress) 
+                        return <LinearProgressWithLabel value={progress} />
+                })()}                            
                 
             </React.Fragment>
         )
@@ -267,20 +411,20 @@ export default function RepairForm() {
                     <Grid sx={{ order: {xs: 2, md: 1}}} item xs={12} md={4}>
                         <Typography variant="h4"> Book A Repair</Typography>    
 
-                        <form className="mt-5" onSubmit={handleSubmitIphone}>
+                        <form className="mt-5" onSubmit={handleSubmitForm}>
                             <div className="form-group mb-3">
-                                <input required placeholder="Device Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                                <input required onKeyUp={(e) => setDevice(e.target.value)}  placeholder="Device Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
                             <div className="form-group mb-3">
-                                <input required placeholder="Device Model" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                                <input required onKeyUp={(e) => setDeviceModel(e.target.value)}   placeholder="Device Model" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
                             <div className="form-group mb-3">
-                                <textarea rows={5} placeholder="What is wrong with your device" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                                <textarea rows={5} onKeyUp={(e) => setDeviceDamage(e.target.value)}  placeholder="What is wrong with your device" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
                     
                             <div className="form-group mb-3">
                                 <label for="exampleFormControlFile1">Upload image/video of device</label>
-                                <input required type="file" className="form-control-file" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
+                                <input type="file" className="form-control-file" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
                             
                             
@@ -298,9 +442,9 @@ export default function RepairForm() {
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPhone(e.target.value)} type="tel" placeholder="Phone Number" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
-                            <div className="form-group mb-3">
+                            {/* <div className="form-group mb-3">
                                 <input placeholder="Alt. Phone Number" defaultValue={phone} onKeyUp={(e) => setAltPhone(e.target.value)} type="tel" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
-                            </div>
+                            </div> */}
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPickup(e.target.value)} placeholder="Pickup address" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -337,12 +481,64 @@ export default function RepairForm() {
 
                 {(() => {
                     if (success) 
-                        return <SuccessModal /> 
+                        return (
+                            <div>
+                                  {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                  <Modal
+                                    open={openSuccess}
+                                    onClose={handleCloseSuccess}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Box component="img" src={successImg} height={80} />
+                                      <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                          Successful
+                                      </Typography>
+                                      <Typography id="modal-modal-description" mt={1}>
+                                          You will receive an email shortly
+                                      </Typography>
+                                      <Link to="/">
+                                          <Button class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                              Go back to homepage
+                                          </Button>
+                                      </Link>
+                                  </Box>
+                                  </Modal>
+                                </div>
+                        )
                     else if (failed) 
-                        return <FailedModal />
+                        return (
+                            <div>
+                                {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                <Modal
+                                open={openFailed}
+                                onClose={handleCloseFailed}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                                >
+                                <Box sx={style}>
+                                    <Box component="img" src={successImg} height={80} />
+                                    <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                        Failed
+                                    </Typography>
+                                    {/* <Typography id="modal-modal-description" mt={1}>
+                                        {}}
+                                    </Typography> */}
+                                    <Button onClick={handleCloseFailed}  class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                        Try Again
+                                    </Button>
+                                </Box>
+                                </Modal>
+                            </div>
+                        )
 
                 })()}                
                 
+                {(() => {
+                    if (showProgress) 
+                        return <LinearProgressWithLabel value={progress} />
+                })()}                
             </React.Fragment>
         )
 
@@ -361,7 +557,7 @@ export default function RepairForm() {
                         <Typography variant="h4"> Book A Repair</Typography>    
 
                         <Typography variant="h6" mt={5} mb={3} >Enter Your Name And Address :</Typography>    
-                        <form onSubmit={handleSubmitIphone}>
+                        <form onSubmit={handleSubmitForm}>
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setFirstName(e.target.value)} placeholder="First Name" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -374,9 +570,9 @@ export default function RepairForm() {
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPhone(e.target.value)} type="tel" placeholder="Phone Number" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
-                            <div className="form-group mb-3">
+                            {/* <div className="form-group mb-3">
                                 <input placeholder="Alt. Phone Number" defaultValue={phone} onKeyUp={(e) => setAltPhone(e.target.value)} type="tel" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
-                            </div>
+                            </div> */}
                             <div className="form-group mb-3">
                                 <input required onKeyUp={(e) => setPickup(e.target.value)} placeholder="Pickup address" className="form-control" style={{ paddingTop: '12px', paddingBottom: '12px' }} />
                             </div>
@@ -388,7 +584,7 @@ export default function RepairForm() {
                                 <Select
                                 labelId="state-select-label"
                                 id="state-select"
-                                // value={state}
+                                value={state}
                                 label="State"
                                 onChange={(e) => setUserState(e.target.value)}
                                 >
@@ -411,10 +607,63 @@ export default function RepairForm() {
                 
                 {(() => {
                     if (success) 
-                        return <SuccessModal /> 
+                        return (
+                                <div>
+                                  {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                  <Modal
+                                    open={openSuccess}
+                                    onClose={handleCloseSuccess}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                  >
+                                    <Box sx={style}>
+                                      <Box component="img" src={successImg} height={80} />
+                                      <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                          Successful
+                                      </Typography>
+                                      <Typography id="modal-modal-description" mt={1}>
+                                          You will receive an email shortly
+                                      </Typography>
+                                      <Link to="/">
+                                          <Button class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                              Go back to homepage
+                                          </Button>
+                                      </Link>
+                                  </Box>
+                                  </Modal>
+                                </div>
+                        )
                     else if (failed) 
-                        return <FailedModal />
+                        return (
+                            <div>
+                                {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                                <Modal
+                                open={openFailed}
+                                onClose={handleCloseFailed}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                                >
+                                <Box sx={style}>
+                                    <Box component="img" src={successImg} height={80} />
+                                    <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
+                                        Failed
+                                    </Typography>
+                                    {/* <Typography id="modal-modal-description" mt={1}>
+                                        {}}
+                                    </Typography> */}
+                                    <Button onClick={handleCloseFailed} class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
+                                        Try Again
+                                    </Button>
+                                </Box>
+                                </Modal>
+                            </div>
+                        )
 
+                })()}
+
+                {(() => {
+                    if (showProgress) 
+                        return <LinearProgressWithLabel value={progress} />
                 })()}
                 
             </React.Fragment>
@@ -439,71 +688,6 @@ const style = {
     p: 4,
     textAlign: 'center',
   };
-  
-  function SuccessModal() {
-    const [open, setOpen] = React.useState(true);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-  
-    return (
-      <div>
-        {/* <Button onClick={handleOpen}>Open modal</Button> */}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Box component="img" src={success} height={80} />
-            <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
-                Successful
-            </Typography>
-            <Typography id="modal-modal-description" mt={1}>
-                You will receive an email shortly
-            </Typography>
-            <Link to="/">
-                <Button value="submit" class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-                    Go back to homepage
-                </Button>
-            </Link>
-        </Box>
-        </Modal>
-      </div>
-    );
-  }
-
-  function FailedModal(props) {
-    const [open, setOpen] = React.useState(true);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-  
-    return (
-      <div>
-        {/* <Button onClick={handleOpen}>Open modal</Button> */}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Box component="img" src={success} height={80} />
-            <Typography fontWeight="bold" pt={3} id="modal-modal-title" variant="h4" component="h2">
-                Failed
-            </Typography>
-            <Typography id="modal-modal-description" mt={1}>
-                {props.message}
-            </Typography>
-            <Button value="submit" class="mt-5 ctabtn btn w-100" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-                Try Again
-            </Button>
-        </Box>
-        </Modal>
-      </div>
-    );
-  }  
-
 
   const states = [
     "Abia",
